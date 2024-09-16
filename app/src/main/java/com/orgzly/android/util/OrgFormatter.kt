@@ -21,7 +21,7 @@ import java.util.regex.Pattern
  */
 object OrgFormatter {
 
-    private const val SYSTEM_LINK_SCHEMES = "https?|mailto|tel|voicemail|geo|sms|smsto|mms|mmsto"
+    private const val SYSTEM_LINK_SCHEMES = "https?|mailto|tel|voicemail|geo|sms|smsto|mms|mmsto|mid"
 
     private const val CUSTOM_LINK_SCHEMES = "id|file"
 

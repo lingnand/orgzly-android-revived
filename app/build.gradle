@@ -5,13 +5,13 @@ apply plugin: 'kotlin-kapt'
 android {
     namespace 'com.orgzly'
 
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
-        versionCode 217
-        versionName "1.8.26"
+        targetSdkVersion 34
+        versionCode 228
+        versionName "1.8.31"
         applicationId = "com.orgzlyrevived"
         resValue "string", "application_id", "com.orgzlyrevived"
 
@@ -36,6 +36,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     testOptions {
@@ -159,12 +160,11 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$versions.android_test_espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$versions.android_test_espresso"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$versions.android_test_espresso"
-    androidTestImplementation "androidx.test:runner:$versions.android_test"
+    androidTestImplementation "androidx.test:runner:$versions.android_test_runner"
     androidTestImplementation "androidx.test:rules:$versions.android_test"
     androidTestImplementation "androidx.test.ext:junit:$versions.android_test_ext_junit"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$versions.android_test_uiautomator"
     androidTestImplementation "de.sven-jacobs:loremipsum:$versions.loremipsum"
-    androidTestImplementation "androidx.annotation:annotation:$versions.android_annotation"
 
     /* For running tests on lower API versions (e.g. 18) to avoid:
      * Didn't find class "androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"

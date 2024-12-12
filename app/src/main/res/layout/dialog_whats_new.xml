@@ -22,6 +22,72 @@
 
         <TextView
             style="@style/WhatsNewVersion"
+            android:text="v1.8.31"
+            tools:ignore="HardcodedText" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Downgrade a WebDAV dependency." />
+
+        <TextView
+            style="@style/WhatsNewVersion"
+            android:text="v1.8.30"
+            tools:ignore="HardcodedText"
+            android:autoLink="web" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Fix &lt;a href=&quot;https://github.com/orgzly-revived/orgzly-android-revived/issues/395&quot;&gt;file corruption bug&lt;/a&gt; when saving to directory repos." />
+
+        <TextView
+            style="@style/WhatsNewVersion"
+            android:text="v1.8.29"
+            tools:ignore="HardcodedText" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Fix crash when pasting notes." />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Update translations for Brazilian Portuguese and Turkish." />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Upgrade dependencies." />
+
+        <TextView
+            style="@style/WhatsNewVersion"
+            android:text="v1.8.28"
+            tools:ignore="HardcodedText" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Target Android 14 and upgrade some Android dependencies." />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Dropbox: Account access is now full scope, not app folder. (Unlink and re-link for it to take effect.)" />
+
+        <TextView
+            style="@style/WhatsNewVersion"
+            android:text="v1.8.27"
+            tools:ignore="HardcodedText" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Add support for repository subfolders. (Note: The feature is disabled by default. It can be enabled under sync settings. In a future release, it will become enabled by default.)" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Leverage timestamps in PROPERTIES drawers" />
+
+        <com.orgzly.android.ui.views.WhatsNewChange
+            style="@style/WhatsNewChange"
+            app:text="Fix race condition when deleting multiple notebooks" />
+
+        <TextView
+            style="@style/WhatsNewVersion"
             android:text="v1.8.26"
             tools:ignore="HardcodedText"
             android:autoLink="web" />

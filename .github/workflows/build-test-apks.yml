@@ -1,26 +1,25 @@
-name: Build pre-release artifacts and draft Github release
+name: Build test APKs and store artifacts
 
 on:
-  # Trigger by pushing a version tag (which are protected)
-  push:
-    tags:
-      - v*.*.*-*
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-permissions:
-  contents: write
+  # Also trigger when a PR is created, to facilitate manual testing.
+  pull_request:
+    branches:
+      - 'master'
+    paths-ignore:
+      - 'README.org'
+      - '.github/**'
+      - 'app/build.gradle'
+      - 'metadata/**'
+      - 'app/src/main/res/layout/dialog_whats_new.xml'
 
 jobs:
-  build-prerelease:
+  build-test-apks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Get version name from git tag
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -38,9 +37,12 @@ jobs:
           echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
           echo Last build tool version is: $BUILD_TOOL_VERSION
 
+      - name: Setup Git commit SHA variable
+        run: echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+
       # F-Droid APK
 
-      - name: Assemble F-Droid APK
+      - name: Assemble F-Droid release APK
         run: ./gradlew assembleFdroidRelease --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,7 +59,13 @@ jobs:
           BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
 
       - name: Rename F-Droid APK file
-        run: mv ${{steps.sign_fdroid_apk.outputs.signedReleaseFile}} orgzly-revived-fdroid-${{ env.VERSION }}.apk
+        run: mv ${{steps.sign_fdroid_apk.outputs.signedReleaseFile}} orgzly-revived-fdroid-${{ env.COMMIT_SHA }}.apk
+
+      - name: Store F-Droid release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: orgzly-revived-fdroid-${{ env.COMMIT_SHA }}.apk
+          path: orgzly-revived-fdroid-${{ env.COMMIT_SHA }}.apk
 
       # "Premium" APK
 
@@ -84,34 +92,10 @@ jobs:
           BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
 
       - name: Rename "premium" APK file
-        run: mv ${{steps.sign_premium_apk.outputs.signedReleaseFile}} orgzly-revived-${{ env.VERSION }}.apk
+        run: mv ${{steps.sign_premium_apk.outputs.signedReleaseFile}} orgzly-revived-premium-${{ env.COMMIT_SHA }}.apk
 
-      # "Premium" AAB
-
-      - name: Assemble "premium" AAB
-        run: ./gradlew bundlePremiumRelease --stacktrace
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Sign "premium" AAB
-        uses: r0adkll/sign-android-release@v1
-        id: sign_premium_aab
+      - name: Store "premium" release APK
+        uses: actions/upload-artifact@v4
         with:
-          releaseDirectory: app/build/outputs/bundle/premiumRelease
-          signingKeyBase64: ${{ secrets.APK_SIGNING_KEYSTORE_FILE }}
-          alias: orgzly-revived-20231013
-          keyStorePassword: ${{ secrets.APK_SIGNING_KEYSTORE_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
-
-      - name: Rename "premium" AAB file
-        run: mv ${{steps.sign_premium_aab.outputs.signedReleaseFile}} orgzly-revived-${{ env.VERSION }}.aab
-
-      - name: Upload artifacts and create Github pre-release draft
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            *.apk
-            *.aab
-          prerelease: true
-          draft: true
+          name: orgzly-revived-premium-${{ env.COMMIT_SHA }}.apk
+          path: orgzly-revived-premium-${{ env.COMMIT_SHA }}.apk

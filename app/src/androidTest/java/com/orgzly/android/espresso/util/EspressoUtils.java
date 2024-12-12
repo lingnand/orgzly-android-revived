@@ -190,7 +190,7 @@ public class EspressoUtils {
     }
 
     public static ViewInteraction onRecyclerViewItem(@IdRes int recyclerView, int position, @IdRes int childView) {
-        SystemClock.sleep(100);
+        SystemClock.sleep(200);
         onView(isRoot()).perform(waitId(recyclerView, 5000));
         onView(withId(recyclerView)).perform(RecyclerViewActions.scrollToPosition(position));
         return onView(new EspressoRecyclerViewMatcher(recyclerView)
@@ -341,11 +341,14 @@ public class EspressoUtils {
     }
 
     public static void searchForTextCloseKeyboard(String str) {
+        SystemClock.sleep(300);
         onView(isRoot()).perform(waitId(R.id.search_view, 5000));
         onView(allOf(withId(R.id.search_view), isDisplayed())).perform(click());
+        SystemClock.sleep(300);
         onView(isRoot()).perform(waitId(R.id.search_src_text, 5000));
         onView(withId(R.id.search_src_text)).perform(replaceText(str), pressKey(KeyEvent.KEYCODE_ENTER));
         closeSoftKeyboardWithDelay();
+        SystemClock.sleep(300);
     }
 
     public static ViewAction[] replaceTextCloseKeyboard(String str) {
